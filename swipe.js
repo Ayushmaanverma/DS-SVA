@@ -1,63 +1,54 @@
-// swipe.js - Enhanced Swipe Detection
 document.addEventListener('DOMContentLoaded', () => {
+    const SWIPE_THRESHOLD = 50;
     const slider = document.querySelector('.slides-container');
     const slides = document.querySelectorAll('.slide');
     const indicators = document.querySelectorAll('.dot');
     
-    let isDragging = false;
-    let startPos = 0;
-    let currentTranslate = 0;
-    let prevTranslate = 0;
+    let touchStartX = 0;
     let currentIndex = 0;
 
     // Touch Events
-    slider.addEventListener('touchstart', touchStart);
-    slider.addEventListener('touchend', touchEnd);
-    slider.addEventListener('touchmove', touchMove);
+    slider.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+    });
+
+    slider.addEventListener('touchend', e => {
+        const touchEndX = e.changedTouches[0].clientX;
+        handleSwipe(touchStartX - touchEndX);
+    });
 
     // Mouse Events
-    slider.addEventListener('mousedown', touchStart);
-    slider.addEventListener('mouseup', touchEnd);
-    slider.addEventListener('mouseleave', touchEnd);
-    slider.addEventListener('mousemove', touchMove);
+    slider.addEventListener('mousedown', e => {
+        touchStartX = e.clientX;
+        document.addEventListener('mouseup', onMouseUp);
+    });
 
-    function touchStart(e) {
-        isDragging = true;
-        startPos = getPositionX(e);
-        slider.style.transition = 'none';
+    function onMouseUp(e) {
+        handleSwipe(touchStartX - e.clientX);
+        document.removeEventListener('mouseup', onMouseUp);
     }
 
-    function touchEnd() {
-        isDragging = false;
-        const movedBy = currentTranslate - prevTranslate;
+    function handleSwipe(deltaX) {
+        if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
         
-        if(movedBy < -100 && currentIndex < slides.length - 1) currentIndex++;
-        if(movedBy > 100 && currentIndex > 0) currentIndex--;
-
-        setSliderPosition();
+        if (deltaX > 0 && currentIndex < slides.length - 1) {
+            currentIndex++;
+        } else if (deltaX < 0 && currentIndex > 0) {
+            currentIndex--;
+        }
+        
+        updateSlider();
         updateIndicators();
     }
 
-    function touchMove(e) {
-        if(isDragging) {
-            const currentPosition = getPositionX(e);
-            currentTranslate = prevTranslate + currentPosition - startPos;
-        }
-    }
-
-    function setSliderPosition() {
+    function updateSlider() {
         slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-        slider.style.transition = 'transform 0.3s ease-out';
-        prevTranslate = currentIndex * -window.innerWidth;
+        slider.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
     }
 
     function updateIndicators() {
-        indicators.forEach((dot, index) => 
-            dot.classList.toggle('active', index === currentIndex)
-        );
-    }
-
-    function getPositionX(e) {
-        return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        indicators.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
     }
 });
