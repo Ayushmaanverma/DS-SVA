@@ -6,12 +6,17 @@
     <title>StreetEats - Food Ordering</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- PWA Metadata -->
+    <meta name="theme-color" content="#FF6B35">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <!-- Loading Screen -->
     <section id="loading" class="screen visible">
         <div class="loader">
-            <img src="https://img.icons8.com/fluency/96/street-food.png" alt="Logo" class="logo">
+            <img src="https://img.icons8.com/fluency/96/street-food.png" 
+                 alt="StreetEats Logo" 
+                 class="logo">
             <div class="spinner"></div>
         </div>
     </section>
@@ -20,19 +25,25 @@
     <section id="onboarding" class="screen">
         <div class="slides-container">
             <div class="slide visible">
-                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9" class="onboarding-img">
-                <h2>Find Street Food Near You</h2>
-                <p>Discover authentic local flavors around your location</p>
+                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9" 
+                     class="onboarding-img"
+                     alt="Street food market">
+                <h2>Discover Local Flavors</h2>
+                <p>Find the best street food vendors near you</p>
             </div>
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1585036156178-9b6d155802f3" class="onboarding-img">
+                <img src="https://images.unsplash.com/photo-1585036156178-9b6d155802f3" 
+                     class="onboarding-img"
+                     alt="Mobile ordering">
                 <h2>Easy Mobile Ordering</h2>
                 <p>Browse menus and order in just a few taps</p>
             </div>
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1603015444097-7a8b4a6c328f" class="onboarding-img">
+                <img src="https://images.unsplash.com/photo-1603015444097-7a8b4a6c328f" 
+                     class="onboarding-img"
+                     alt="WhatsApp integration">
                 <h2>Instant WhatsApp Confirmation</h2>
-                <p>Get order updates directly via WhatsApp</p>
+                <p>Get real-time updates via WhatsApp</p>
                 <button class="get-started">Start Exploring</button>
             </div>
         </div>
@@ -48,7 +59,9 @@
         <div class="auth-container">
             <h1>Welcome to StreetEats</h1>
             <button class="google-login">
-                <img src="https://img.icons8.com/color/48/google-logo.png" alt="Google">
+                <img src="https://img.icons8.com/color/48/google-logo.png" 
+                     alt="Google logo"
+                     class="auth-icon">
                 Continue with Google
             </button>
             <button class="phone-login">
@@ -66,13 +79,17 @@
     <!-- Vendor Details -->
     <section id="vendor-details" class="screen">
         <div class="vendor-header">
-            <img src="https://images.unsplash.com/photo-1578474846511-04ba529a0a0f" class="vendor-image">
+            <img src="" 
+                 class="vendor-image"
+                 alt="Vendor image">
             <h1 class="vendor-name"></h1>
             <p class="vendor-description"></p>
         </div>
         <div class="menu-items"></div>
         <button class="whatsapp-order">
-            <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp">
+            <img src="https://img.icons8.com/color/48/whatsapp--v1.png" 
+                 alt="WhatsApp logo"
+                 class="whatsapp-icon">
             Confirm Order
         </button>
     </section>
@@ -82,26 +99,18 @@
         <span class="material-icons">admin_panel_settings</span>
     </button>
 
-    <!-- Vendor Modal -->
-    <div id="vendorModal" class="modal">
-        <div class="modal-content">
-            <h2>Manage Vendor</h2>
-            <form id="vendorForm">
-                <input type="text" id="vendorName" placeholder="Vendor Name" required>
-                <input type="url" id="vendorImage" placeholder="Image URL" required>
-                <textarea id="vendorDescription" placeholder="Description"></textarea>
-                <div class="form-actions">
-                    <button type="button" onclick="closeModal()">Cancel</button>
-                    <button type="submit">Save Vendor</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-    <script src="firebase.js"></script>
+    <!-- Scripts -->
+    <script type="module" src="firebase.js"></script>
     <script src="swipe.js"></script>
     <script src="app.js"></script>
+    
+    <!-- Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js');
+            });
+        }
+    </script>
 </body>
 </html>
