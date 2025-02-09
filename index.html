@@ -2,115 +2,285 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreetEats - Food Ordering</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- PWA Metadata -->
-    <meta name="theme-color" content="#FF6B35">
-    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>StreetBites - Order Street Food</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui;
+        }
+
+        body {
+            background: #f5f5f5;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* App Container */
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Header */
+        .app-header {
+            background: #FF6B35;
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Vendor List */
+        .vendor-list {
+            padding: 1rem;
+        }
+
+        .vendor-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .vendor-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .vendor-info {
+            padding: 1rem;
+        }
+
+        .vendor-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .vendor-meta {
+            display: flex;
+            gap: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Menu Screen */
+        .menu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 200;
+        }
+
+        .menu-container.active {
+            transform: translateX(0);
+        }
+
+        .menu-header {
+            position: relative;
+            height: 200px;
+        }
+
+        .menu-back-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-items {
+            padding: 1rem;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-price {
+            color: #FF6B35;
+            font-weight: 600;
+        }
+
+        .add-btn {
+            background: #FF6B35;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+        }
+
+        /* Floating Cart */
+        .cart-floating {
+            position: fixed;
+            bottom: 2rem;
+            right: 1rem;
+            background: #FF6B35;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(255,107,53,0.3);
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #25D366;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(37,211,102,0.3);
+        }
+    </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <section id="loading" class="screen visible">
-        <div class="loader">
-            <img src="https://img.icons8.com/fluency/96/street-food.png" 
-                 alt="StreetEats Logo" 
-                 class="logo">
-            <div class="spinner"></div>
-        </div>
-    </section>
-
-    <!-- Onboarding Screens -->
-    <section id="onboarding" class="screen">
-        <div class="slides-container">
-            <div class="slide visible">
-                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9" 
-                     class="onboarding-img"
-                     alt="Street food market">
-                <h2>Discover Local Flavors</h2>
-                <p>Find the best street food vendors near you</p>
-            </div>
-            <div class="slide">
-                <img src="https://images.unsplash.com/photo-1585036156178-9b6d155802f3" 
-                     class="onboarding-img"
-                     alt="Mobile ordering">
-                <h2>Easy Mobile Ordering</h2>
-                <p>Browse menus and order in just a few taps</p>
-            </div>
-            <div class="slide">
-                <img src="https://images.unsplash.com/photo-1603015444097-7a8b4a6c328f" 
-                     class="onboarding-img"
-                     alt="WhatsApp integration">
-                <h2>Instant WhatsApp Confirmation</h2>
-                <p>Get real-time updates via WhatsApp</p>
-                <button class="get-started">Start Exploring</button>
+    <div class="app-container">
+        <!-- Loading Screen -->
+        <div class="loading-screen">
+            <div class="loader">
+                <img src="street-food-icon.png" alt="StreetBites">
+                <div class="spinner"></div>
             </div>
         </div>
-        <div class="indicators">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+
+        <!-- Home Screen -->
+        <div class="main-screen">
+            <header class="app-header">
+                <h1>StreetBites</h1>
+                <div class="location">Current Location ▼</div>
+            </header>
+
+            <div class="vendor-list">
+                <!-- Vendor Cards -->
+                <div class="vendor-card" onclick="showMenu()">
+                    <img src="https://source.unsplash.com/random/800x600?streetfood" class="vendor-image" alt="Chaat Stall">
+                    <div class="vendor-info">
+                        <div class="vendor-name">Ramdev Chaat Corner</div>
+                        <div class="vendor-meta">
+                            <span>⭐ 4.5 (500+)</span>
+                            <span>🛵 20 min</span>
+                            <span>₹100 for two</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More vendor cards... -->
+            </div>
         </div>
-    </section>
 
-    <!-- Login Screen -->
-    <section id="login" class="screen">
-        <div class="auth-container">
-            <h1>Welcome to StreetEats</h1>
-            <button class="google-login">
-                <img src="https://img.icons8.com/color/48/google-logo.png" 
-                     alt="Google logo"
-                     class="auth-icon">
-                Continue with Google
-            </button>
-            <button class="phone-login">
-                <span class="material-icons">phone_iphone</span>
-                Continue with Phone
-            </button>
+        <!-- Menu Screen -->
+        <div class="menu-container" id="menuScreen">
+            <div class="menu-header">
+                <img src="https://source.unsplash.com/random/800x600?chaat" class="vendor-image">
+                <button class="menu-back-btn" onclick="hideMenu()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div>
+                        <h3>Pani Puri</h3>
+                        <p>Crispy puri filled with spicy water</p>
+                    </div>
+                    <div class="item-price">
+                        ₹30
+                        <button class="add-btn">Add</button>
+                    </div>
+                </div>
+
+                <!-- More menu items... -->
+            </div>
         </div>
-    </section>
 
-    <!-- Home Screen -->
-    <section id="home" class="screen">
-        <div class="vendor-grid"></div>
-    </section>
-
-    <!-- Vendor Details -->
-    <section id="vendor-details" class="screen">
-        <div class="vendor-header">
-            <img src="" 
-                 class="vendor-image"
-                 alt="Vendor image">
-            <h1 class="vendor-name"></h1>
-            <p class="vendor-description"></p>
+        <!-- Cart Indicator -->
+        <div class="cart-floating">
+            <i class="fas fa-shopping-basket"></i>
+            <span>3 items</span>
         </div>
-        <div class="menu-items"></div>
-        <button class="whatsapp-order">
-            <img src="https://img.icons8.com/color/48/whatsapp--v1.png" 
-                 alt="WhatsApp logo"
-                 class="whatsapp-icon">
-            Confirm Order
-        </button>
-    </section>
 
-    <!-- Admin Controls -->
-    <button class="fab admin-fab" onclick="toggleAdminMode()">
-        <span class="material-icons">admin_panel_settings</span>
-    </button>
+        <!-- WhatsApp Button -->
+        <a href="#" class="whatsapp-btn">
+            <i class="fab fa-whatsapp"></i>
+            Order via WhatsApp
+        </a>
+    </div>
 
-    <!-- Scripts -->
-    <script type="module" src="firebase.js"></script>
-    <script src="swipe.js"></script>
-    <script src="app.js"></script>
-    
-    <!-- Service Worker -->
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js');
-            });
+        // Screen Management
+        function showMenu() {
+            document.getElementById('menuScreen').classList.add('active');
         }
+
+        function hideMenu() {
+            document.getElementById('menuScreen').classList.remove('active');
+        }
+
+        // Cart Management
+        let cartItems = [];
+
+        document.querySelectorAll('.add-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = {
+                    name: btn.parentElement.parentElement.querySelector('h3').innerText,
+                    price: parseInt(btn.parentElement.innerText.match(/₹(\d+)/)[1])
+                };
+                cartItems.push(item);
+                updateCart();
+            });
+        });
+
+        function updateCart() {
+            document.querySelector('.cart-floating span').innerText = 
+                `${cartItems.length} item${cartItems.length !== 1 ? 's' : ''}`;
+        }
+
+        // WhatsApp Integration
+        document.querySelector('.whatsapp-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const message = `Order Details:%0A${
+                cartItems.map(item => `- ${item.name} (₹${item.price})`).join('%0A')
+            }%0A%0ATotal: ₹${cartItems.reduce((sum, item) => sum + item.price, 0)}`;
+            
+            window.open(`https://wa.me/919876543210?text=${message}`, '_blank');
+        });
     </script>
 </body>
 </html>
