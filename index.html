@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreetEats - Food Ordering</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <section id="loading" class="screen visible">
+        <div class="loader">
+            <img src="https://img.icons8.com/fluency/96/street-food.png" alt="Logo" class="logo">
+            <div class="spinner"></div>
+        </div>
+    </section>
+
+    <!-- Onboarding Screens -->
+    <section id="onboarding" class="screen">
+        <div class="slides-container">
+            <div class="slide visible">
+                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9" class="onboarding-img">
+                <h2>Find Street Food Near You</h2>
+                <p>Discover authentic local flavors around your location</p>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1585036156178-9b6d155802f3" class="onboarding-img">
+                <h2>Easy Mobile Ordering</h2>
+                <p>Browse menus and order in just a few taps</p>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1603015444097-7a8b4a6c328f" class="onboarding-img">
+                <h2>Instant WhatsApp Confirmation</h2>
+                <p>Get order updates directly via WhatsApp</p>
+                <button class="get-started">Start Exploring</button>
+            </div>
+        </div>
+        <div class="indicators">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </section>
+
+    <!-- Login Screen -->
+    <section id="login" class="screen">
+        <div class="auth-container">
+            <h1>Welcome to StreetEats</h1>
+            <button class="google-login">
+                <img src="https://img.icons8.com/color/48/google-logo.png" alt="Google">
+                Continue with Google
+            </button>
+            <button class="phone-login">
+                <span class="material-icons">phone_iphone</span>
+                Continue with Phone
+            </button>
+        </div>
+    </section>
+
+    <!-- Home Screen -->
+    <section id="home" class="screen">
+        <div class="vendor-grid"></div>
+    </section>
+
+    <!-- Vendor Details -->
+    <section id="vendor-details" class="screen">
+        <div class="vendor-header">
+            <img src="https://images.unsplash.com/photo-1578474846511-04ba529a0a0f" class="vendor-image">
+            <h1 class="vendor-name"></h1>
+            <p class="vendor-description"></p>
+        </div>
+        <div class="menu-items"></div>
+        <button class="whatsapp-order">
+            <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp">
+            Confirm Order
+        </button>
+    </section>
+
+    <!-- Admin Controls -->
+    <button class="fab admin-fab" onclick="toggleAdminMode()">
+        <span class="material-icons">admin_panel_settings</span>
+    </button>
+
+    <!-- Vendor Modal -->
+    <div id="vendorModal" class="modal">
+        <div class="modal-content">
+            <h2>Manage Vendor</h2>
+            <form id="vendorForm">
+                <input type="text" id="vendorName" placeholder="Vendor Name" required>
+                <input type="url" id="vendorImage" placeholder="Image URL" required>
+                <textarea id="vendorDescription" placeholder="Description"></textarea>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal()">Cancel</button>
+                    <button type="submit">Save Vendor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="firebase.js"></script>
+    <script src="swipe.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
